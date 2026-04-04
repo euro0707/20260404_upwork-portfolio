@@ -1,0 +1,8 @@
+# clasp — contains your personal scriptId, each dev creates their own
+.clasp.json
+
+# Node
+node_modules/
+
+# Env
+.env
