@@ -15,9 +15,10 @@
 // ============================================================
 const CONFIG = {
   // Target spreadsheet (leave empty if running as container-bound)
-  SPREADSHEET_ID: "",
+  SPREADSHEET_ID: "10MyBofjB6JOVwXQOzdiBCJxBMgJawBNy1gMMwrNBJuQ",
 
-  EMAIL_TO: "your-email@example.com",
+  // Leave empty to auto-send to the logged-in Google account
+  EMAIL_TO: "",
   EMAIL_SUBJECT_DAILY:  "[Daily Report]",
   EMAIL_SUBJECT_WEEKLY: "[Weekly Report]",
 
@@ -50,6 +51,8 @@ function sendWeeklyReport() { _sendReport("weekly"); }
 
 function _sendReport(mode) {
   try {
+    const emailTo = CONFIG.EMAIL_TO || Session.getActiveUser().getEmail();
+
     const ss = CONFIG.SPREADSHEET_ID
       ? SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID)
       : SpreadsheetApp.getActiveSpreadsheet();
@@ -70,13 +73,14 @@ function _sendReport(mode) {
       ? `${CONFIG.EMAIL_SUBJECT_WEEKLY} ${_fmt(yesterday)}`
       : `${CONFIG.EMAIL_SUBJECT_DAILY} ${_fmt(yesterday)}`;
 
-    MailApp.sendEmail({ to: CONFIG.EMAIL_TO, subject, htmlBody });
-    _log(`Report sent (${mode}) → ${CONFIG.EMAIL_TO}`);
+    MailApp.sendEmail({ to: emailTo, subject, htmlBody });
+    _log(`Report sent (${mode}) → ${emailTo}`);
 
   } catch (err) {
     _log(`ERROR: ${err.message}`, "ERROR");
+    const emailTo = CONFIG.EMAIL_TO || Session.getActiveUser().getEmail();
     MailApp.sendEmail({
-      to: CONFIG.EMAIL_TO,
+      to: emailTo,
       subject: "[ERROR] Report failed",
       body: `Error: ${err.message}\nTime: ${new Date().toLocaleString("ja-JP")}`,
     });
