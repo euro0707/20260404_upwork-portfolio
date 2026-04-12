@@ -15,15 +15,15 @@ When a contact form submission comes in via Webhook, this workflow automatically
 Webhook → Claude AI (Haiku) → Google Sheets → Slack
 ```
 
-![n8n Workflow](../img/n8n-workflow.png)
+![n8n Workflow](img/n8n-workflow.png)
 
 ## Screenshots
 
 ### Google Sheets Log
-![Google Sheets](../img/google-sheets-log.png)
+![Google Sheets](img/google-sheets-log.png)
 
 ### Slack Notification
-![Slack Notification](../img/slack-notification.png)
+![Slack Notification](img/slack-notification.png)
 
 ## Tech Stack
 
